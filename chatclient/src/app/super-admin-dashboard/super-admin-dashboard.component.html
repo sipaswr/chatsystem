@@ -1,0 +1,20 @@
+<h1>Super Admin Dashboard</h1>
+
+<table>
+  <tr>
+    <th>Username</th>
+    <th>Role</th>
+    <th>Actions</th>
+  </tr>
+  <tr *ngFor="let user of listUsers">
+    <td>{{ user.username }}</td>
+    <td>{{ user.role }}</td>
+    <td>
+      <button (click)="promoteToGroupAdmin(user.username)" [disabled]="user.role === 'super'">Promote to Group Admin</button>
+      <button (click)="removeUser(user.username)">Remove User</button>
+      <button (click)="upgradeToSuperAdmin(user.username)" [disabled]="user.role === 'super'">Upgrade to Super Admin</button>
+    </td>
+  </tr>
+</table>
+
+<button (click)="logout()">Logout</button>

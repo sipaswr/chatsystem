@@ -43,13 +43,14 @@ This project is a text/video chat system built using the MEAN stack (MongoDB, Ex
 ## Angular Architecture
 - **Components:**
   - `LoginComponent`: Handles user authentication.
-  - `DashboardComponent`: Displays the user's groups and channels.
-  - `GroupManagementComponent`: Allows group and channel management for admins.
+  - `UserDashboardComponent`: Displays the user's groups and channels.
+  - `navbarComponent`: Provide navigation options.
+  - `SuperAdminComponent`: 
+  - `GroupAdminComponent`: Allows group adminstrators to manage groups.
   - `ChatComponent`: Handles real-time chat interactions.
 
 - **Services:**
-  - `AuthService`: Manages user authentication and authorization.
-  - `GroupService`: Handles operations related to groups and channels.
+  - `UserService`: Manage user operations.
   - `ChatService`: Manages real-time chat communication using sockets.
 
 - **Models:**
@@ -59,8 +60,9 @@ This project is a text/video chat system built using the MEAN stack (MongoDB, Ex
 
 - **Routes:**
   - `/login`: Route for user login.
-  - `/dashboard`: Route for displaying user dashboard.
-  - `/group-management`: Route for managing groups and channels.
+  - `/super-admin-dashboard`: Super admin dashboard route.
+  - `/group-admin-dashboard`: Group Admin dashboard route.
+  - `/chat-user-dashboard`: User chat dashboard route.
   - `/chat/:channelId`: Route for real-time chat within a specific channel.
 
 ## Node Server Architecture

@@ -1,0 +1,24 @@
+[
+    {
+        "userid": "1",
+        "username": "super",
+        "useremail": "super@gmail.com",
+        "userrole": ["superadmin"],
+        "usergroups": ["group1", "group2"]
+    },
+    {
+        "userid": "2",
+        "username": "groupadmin",
+        "useremail": "groupadmin@gmail.com",
+        "userrole": ["groupadmin"],
+        "usergroups": ["group1", "group2"]
+    },
+    {
+        "userid": "3",
+        "username": "user1",
+        "useremail": "user1@gmail.com",
+        "userrole": ["user"],
+        "usergroups": ["group1"]
+    }
+  ]
+  

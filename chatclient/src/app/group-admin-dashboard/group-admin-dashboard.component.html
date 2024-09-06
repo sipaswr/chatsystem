@@ -1,0 +1,76 @@
+<div class="dashboard-container">
+    <header class="'header">
+    <h2>Group Administrator Dashboard</h2>
+    </header>
+  
+    <!-- Create Group Form -->
+    <div class="form-group">
+      <h3>Create Group</h3>
+      <input type="text" [(ngModel)]="newGroupName" placeholder="Group Name" />
+      <button (click)="createGroup(newGroupName)">Create Group</button>
+    </div>
+  
+    <!-- Create Channel Form -->
+    <div class="form-group">
+      <h3>Create Channel</h3>
+      <input type="text" [(ngModel)]="newChannelName" placeholder="Channel Name" />
+      <select [(ngModel)]="selectedGroupForChannel">
+        <option *ngFor="let group of myGroups" [value]="group.name">{{ group.name }}</option>
+      </select>
+      <button (click)="createChannel(newChannelName, selectedGroupForChannel)">Create Channel</button>
+    </div>
+  
+    <!-- Remove Group Form -->
+    <div class="form-group">
+      <h3>Remove Group</h3>
+      <select [(ngModel)]="groupToRemove">
+        <option *ngFor="let group of myGroups" [value]="group.name">{{ group.name }}</option>
+      </select>
+      <button (click)="removeGroup(groupToRemove)">Remove Group</button>
+    </div>
+  
+    <!-- Remove Channel Form -->
+    <div class="form-group">
+      <h3>Remove Channel</h3>
+      <input type="text" [(ngModel)]="channelToRemove" placeholder="Channel Name" />
+      <select [(ngModel)]="selectedGroupForChannelRemoval">
+        <option *ngFor="let group of myGroups" [value]="group.name">{{ group.name }}</option>
+      </select>
+      <button (click)="removeChannel(channelToRemove, selectedGroupForChannelRemoval)">Remove Channel</button>
+    </div>
+  
+    <!-- Delete User From Group Form -->
+    <div class="form-group">
+      <h3>Delete User From Group</h3>
+      <input type="text" [(ngModel)]="userToDelete" placeholder="Username" />
+      <select [(ngModel)]="selectedGroupForUserDeletion">
+        <option *ngFor="let group of myGroups" [value]="group.name">{{ group.name }}</option>
+      </select>
+      <button (click)="deleteUserFromGroup(userToDelete, selectedGroupForUserDeletion)">Delete User</button>
+    </div>
+  
+    <!-- Modify Group Form -->
+    <div class="form-group">
+      <h3>Modify Group</h3>
+      <input type="text" [(ngModel)]="oldGroupName" placeholder="Old Group Name" />
+      <input type="text" [(ngModel)]="newGroupName" placeholder="New Group Name" />
+      <button (click)="modifyGroup(oldGroupName, newGroupName)">Modify Group</button>
+    </div>
+  
+    <!-- Ban User From Channel Form -->
+    <div class="form-group">
+      <h3>Ban User From Channel</h3>
+      <input type="text" [(ngModel)]="userToBan" placeholder="Username" />
+      <input type="text" [(ngModel)]="channelToBanFrom" placeholder="Channel Name" />
+      <select [(ngModel)]="selectedGroupForBan">
+        <option *ngFor="let group of myGroups" [value]="group.name">{{ group.name }}</option>
+      </select>
+      <button (click)="banUserFromChannel(userToBan, channelToBanFrom, selectedGroupForBan)">Ban User</button>
+    </div>
+  
+    <!-- Logout Button -->
+    <div class="form-group">
+      <button (click)="logout()">Logout</button>
+    </div>
+  </div>
+  
