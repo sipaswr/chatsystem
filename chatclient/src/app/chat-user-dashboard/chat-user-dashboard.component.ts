@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ChatUserDashboardComponent implements OnInit {
   username: string = ''; 
+  profilePicture: string | ArrayBuffer | null = null; // Property for the profile picture
   groups: string[] = [];  // List of groups user belongs to
   interestedGroups: string[] = [];  // Groups user is interested in
   allGroups: string[] = ['Group A', 'Group B', 'Group C'];  // Example list of available groups
@@ -21,6 +22,7 @@ export class ChatUserDashboardComponent implements OnInit {
     this.username = sessionStorage.getItem('username') || '';
     this.groups = JSON.parse(sessionStorage.getItem('groups') || '[]');
     this.interestedGroups = JSON.parse(sessionStorage.getItem('interestedGroups') || '[]');
+    this.profilePicture = sessionStorage.getItem('profilePicture') || null; // Load saved profile picture
   }
 
   // Create a new chat user
@@ -28,6 +30,19 @@ export class ChatUserDashboardComponent implements OnInit {
     if (newUsername && newUsername.trim()) {
       this.username = newUsername;
       sessionStorage.setItem('username', this.username);
+    }
+  }
+
+  // Handle profile picture change
+  onProfilePictureChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.profilePicture = e.target?.result as string | ArrayBuffer; // Ensure result is a compatible type
+        sessionStorage.setItem('profilePicture', this.profilePicture as string); // Save to session storage
+      };
+      reader.readAsDataURL(input.files[0]);
     }
   }
 
@@ -68,6 +83,7 @@ export class ChatUserDashboardComponent implements OnInit {
     this.username = '';
     this.groups = [];
     this.interestedGroups = [];
+    this.profilePicture = null; // Clear profile picture
     this.router.navigate(['/login']);  // Redirect to login page
   }
 
@@ -75,6 +91,7 @@ export class ChatUserDashboardComponent implements OnInit {
   logout() {
     sessionStorage.clear();  // Clear session
     this.username = '';
+    this.profilePicture = null; // Clear profile picture
     this.router.navigate(['/login']);  // Redirect to login page
   }
 }

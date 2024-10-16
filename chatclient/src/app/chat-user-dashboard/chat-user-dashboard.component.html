@@ -1,9 +1,17 @@
 <div class="dashboard">
-  <h2 *ngIf="username">Welcome, {{ username }}</h2>
+  <h2 *ngIf="username">Welcome, {{ username }} 
+    <img *ngIf="profilePicture" [src]="profilePicture" alt="Profile Picture" class="profile-picture" />
+  </h2>
+
+  <!-- Profile Picture Upload Section -->
+  <div *ngIf="username" class="profile-section">
+    <p>Set a profile picture:</p>
+    <input type="file" (change)="onProfilePictureChange($event)" accept="image/*" />
+  </div>
 
   <div *ngIf="!username" class="create-user">
     <h3>Create New Chat User</h3>
-    <input #newUsername type="text" placeholder="Enter a unique username" class="username-input">
+    <input #newUsername type="text" placeholder="Enter a unique username" class="username-input" />
     <button (click)="createUser(newUsername.value)" class="create-button">Create User</button>
   </div>
 
@@ -13,7 +21,7 @@
       <li *ngFor="let group of groups" class="group-item">
         {{ group }}
         <button (click)="leaveGroup(group)" class="action-button leave-button">Leave Group</button>
-        <button (click)="startChat(group)" class="action-button chat-button">Start Chat</button> 
+        <button (click)="startChat(group)" class="action-button chat-button">Start Chat</button>
       </li>
     </ul>
 

@@ -95,3 +95,32 @@
     background-color: #d39e00;
   }
   
+  .profile-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; 
+    padding: 10px; 
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    background-color: #fff; 
+  }
+  
+  .profile-section p {
+    margin-right: 10px; 
+    font-weight: bold; 
+  }
+  
+  .profile-section input[type="file"] {
+    padding: 5px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+  }
+  
+  .profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+    object-fit: cover; 
+    margin-left: 10px; 
+  }
+  
