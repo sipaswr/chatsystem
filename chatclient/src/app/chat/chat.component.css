@@ -58,3 +58,11 @@ h2 {
 .message:last-child {
     border-bottom: none; /* Remove border for last message */
 }
+
+.profile-picture {
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%; 
+    margin-right: 10px;
+    object-fit: cover; 
+}

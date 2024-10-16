@@ -20,4 +20,10 @@ export class UserService {
   clearUser(username: string) {
     localStorage.removeItem(username);
   }
+
+  // Get user profile picture from local storage
+  getProfilePicture(username: string): string {
+    const user = this.getUser(username); // Retrieve the user data
+    return user?.profilePicture || 'default-picture-url.png';
+  }
 }

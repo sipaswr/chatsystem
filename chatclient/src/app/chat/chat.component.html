@@ -63,9 +63,12 @@
     <!-- Display chat messages -->
     <div class="chat-messages">
         <div *ngFor="let message of messagecontents" class="message">
+            <!-- Display profile picture if available -->
+            <img *ngIf="message.profilePicture" [src]="message.profilePicture" alt="Profile Picture" class="profile-picture" />
             <strong>{{ message.user }}:</strong> 
             <span *ngIf="!message.isImage">{{ message.content }}</span>
             <img *ngIf="message.isImage" [src]="message.content" alt="Uploaded image" class="uploaded-image" />
         </div>
     </div>
+    
 </div>

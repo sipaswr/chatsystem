@@ -3,6 +3,7 @@ import { SocketService } from '../services/socket.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Socket } from 'socket.io-client';
+import { UserService } from '../user.service'; // Import UserService to access user profile picture
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +16,7 @@ export class ChatComponent implements OnInit {
   private socket!: Socket;
   currentGroup: string = '';
   messagecontent: string = "";
-  messagecontents: { user: string; content: string; isImage?: boolean }[] = [];
+  messagecontents: { user: string; content: string; isImage?: boolean; profilePicture?: string | ArrayBuffer | null }[] = []; // Add profilePicture property
   channels: string[] = ['channel1', 'channel2'];
   currentUser: string = '';
   channelslist: string = "";
@@ -27,7 +28,7 @@ export class ChatComponent implements OnInit {
   numusers: number = 0;
   selectedFile: File | null = null;
 
-  constructor(private socketService: SocketService) {}
+  constructor(private socketService: SocketService, private userService: UserService) {} // Inject UserService
 
   ngOnInit() {
     this.currentGroup = sessionStorage.getItem('currentGroup') || 'No Group Selected';
@@ -93,8 +94,9 @@ export class ChatComponent implements OnInit {
 
   chat(message: string, user: string, channel: string) {
     if (message) {
+      const profilePicture = sessionStorage.getItem('profilePicture') || ''; // Retrieve from session storage
       this.socketService.sendMessage(message, user, channel);
-      this.messagecontents.push({ user: user, content: message, isImage: false });
+      this.messagecontents.push({ user: user, content: message, isImage: false, profilePicture }); // Include profile picture
       this.messagecontent = ""; 
     } else {
       console.log('No Message');
@@ -116,10 +118,11 @@ export class ChatComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const imageUrl = e.target.result;
+        const profilePicture = this.userService.getProfilePicture(this.currentUser); // Get the user's profile picture with username
         this.socketService.sendMessage(imageUrl, this.currentUser, this.currentchannel, true); // Send as image
-        this.messagecontents.push({ user: this.currentUser, content: imageUrl, isImage: true });
+        this.messagecontents.push({ user: this.currentUser, content: imageUrl, isImage: true, profilePicture }); // Include profile picture
       };
-      reader.readAsDataURL(this.selectedFile); // Convert to base64 string
+      reader.readAsDataURL(this.selectedFile);
       this.selectedFile = null; // Reset the selected file
     }
   }
