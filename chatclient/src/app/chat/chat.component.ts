@@ -1,0 +1,135 @@
+import { Component, OnInit } from '@angular/core';
+import { SocketService } from '../services/socket.service';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { Socket } from 'socket.io-client';
+
+@Component({
+  selector: 'app-chat',
+  standalone: true,
+  templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.css'],
+  imports: [FormsModule, CommonModule]
+})
+export class ChatComponent implements OnInit {
+  private socket!: Socket;
+  currentGroup: string = '';
+  messagecontent: string = "";
+  messagecontents: { user: string; content: string; isImage?: boolean }[] = [];
+  channels: string[] = ['channel1', 'channel2'];
+  currentUser: string = '';
+  channelslist: string = "";
+  channelnotice: string = "";
+  channelJoinedMessage: string = "";
+  currentchannel: string = "";
+  isinChannel = false;
+  newchannel: string = "";
+  numusers: number = 0;
+  selectedFile: File | null = null;
+
+  constructor(private socketService: SocketService) {}
+
+  ngOnInit() {
+    this.currentGroup = sessionStorage.getItem('currentGroup') || 'No Group Selected';
+    this.currentUser = sessionStorage.getItem('username') || '';
+
+    this.socketService.initSocket();
+    this.socketService.getMessage((m: any) => {
+      this.messagecontents.push(m);
+    });
+
+    this.socketService.reqchannellist();
+    this.socketService.getchannellist((msg: any) => {
+      this.channels = JSON.parse(msg);
+    });
+
+    this.socketService.notice((msg: any) => {
+      this.channelnotice = msg;
+    });
+
+    this.socketService.joined((msg: any) => {
+      this.currentchannel = msg;
+      this.isinChannel = this.currentchannel !== "";
+      this.channelJoinedMessage = `You have joined the channel: ${this.currentchannel}`;
+    });
+  }
+
+  joinchannel() {
+    if (this.channelslist) {
+      this.socketService.joinchannel(this.channelslist);
+      this.socketService.reqnumusers(this.channelslist);
+      this.socketService.getnumusers((res: any) => { 
+        this.numusers = res;
+      });
+      this.isinChannel = true;
+    } else {
+      console.error('No channel selected');
+    }
+  }
+
+  leavechannel() {
+    this.socketService.leavechannel(this.currentchannel);
+    this.channelslist = "";
+    this.currentchannel = "";
+    this.isinChannel = false;
+    this.channelJoinedMessage = ""; 
+    this.messagecontents = [];
+  }
+
+  createchannel() {
+    if (this.newchannel) {
+      this.socketService.createchannel(this.newchannel);
+      this.newchannel = ""; 
+
+      // Fetch updated channel list
+      this.socketService.reqchannellist();
+      this.socketService.getchannellist((msg: any) => {
+        this.channels = JSON.parse(msg);
+      });
+    } else {
+      console.error('No channel name provided');
+    }
+  }
+
+  chat(message: string, user: string, channel: string) {
+    if (message) {
+      this.socketService.sendMessage(message, user, channel);
+      this.messagecontents.push({ user: user, content: message, isImage: false });
+      this.messagecontent = ""; 
+    } else {
+      console.log('No Message');
+    }
+  }
+
+  // Handle file selection
+  onFileSelected(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedFile = fileInput.files[0];
+      this.uploadFile();
+    }
+  }
+
+  // Upload the selected image file
+  uploadFile() {
+    if (this.selectedFile) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const imageUrl = e.target.result;
+        this.socketService.sendMessage(imageUrl, this.currentUser, this.currentchannel, true); // Send as image
+        this.messagecontents.push({ user: this.currentUser, content: imageUrl, isImage: true });
+      };
+      reader.readAsDataURL(this.selectedFile); // Convert to base64 string
+      this.selectedFile = null; // Reset the selected file
+    }
+  }
+
+  clearnotice() {
+    this.channelnotice = "";
+    this.channelJoinedMessage = "";
+  }
+
+  getActiveUsersText() {
+    return `${this.numusers} Active User${this.numusers !== 1 ? 's' : ''}`;
+  }
+}

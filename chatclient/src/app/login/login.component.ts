@@ -38,7 +38,7 @@ export class LoginComponent {
     }
 
     if (user) {
-      // Store user info in local storage and redirect based on role
+      // Store user info in local storage
       localStorage.setItem('loggedInUser', user.username);
     
       switch (user.role) {

@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { SuperAdminDashboardComponent } from './super-admin-dashboard/super-admin-dashboard.component';
 import { GroupAdminDashboardComponent } from './group-admin-dashboard/group-admin-dashboard.component';
 import { ChatUserDashboardComponent } from './chat-user-dashboard/chat-user-dashboard.component';
+import { ChatComponent } from './chat/chat.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -11,6 +12,7 @@ export const routes: Routes = [
   { path: 'super-admin-dashboard', component: SuperAdminDashboardComponent },
   { path: 'group-admin-dashboard', component: GroupAdminDashboardComponent },
   { path: 'chat-user-dashboard', component: ChatUserDashboardComponent },
+  { path: 'chat', component: ChatComponent},
   { path: '**', redirectTo: '/login'}
 ];
 

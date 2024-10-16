@@ -6,11 +6,12 @@ import { GroupAdminDashboardComponent } from './group-admin-dashboard/group-admi
 import { ChatUserDashboardComponent } from './chat-user-dashboard/chat-user-dashboard.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CommonModule } from '@angular/common';
+import { ChatComponent } from './chat/chat.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, LoginComponent, SuperAdminDashboardComponent, GroupAdminDashboardComponent, ChatUserDashboardComponent, NavbarComponent, CommonModule],
+  imports: [RouterOutlet, LoginComponent, ChatComponent, SuperAdminDashboardComponent, GroupAdminDashboardComponent, ChatUserDashboardComponent, NavbarComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

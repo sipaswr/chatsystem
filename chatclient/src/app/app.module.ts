@@ -6,10 +6,11 @@ import { LoginComponent } from './login/login.component';
 import { SuperAdminDashboardComponent } from './super-admin-dashboard/super-admin-dashboard.component';
 import { GroupAdminDashboardComponent } from './group-admin-dashboard/group-admin-dashboard.component';
 import { ChatUserDashboardComponent } from './chat-user-dashboard/chat-user-dashboard.component';
+import { ChatComponent } from './chat/chat.component';
+import { SocketService } from './services/socket.service';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [
-  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -17,14 +18,16 @@ import { ChatUserDashboardComponent } from './chat-user-dashboard/chat-user-dash
     LoginComponent,
     SuperAdminDashboardComponent,
     GroupAdminDashboardComponent,
-    ChatUserDashboardComponent
+    ChatUserDashboardComponent,
+    ChatComponent,
+    CommonModule
   ],
   exports: [
     SuperAdminDashboardComponent,
     GroupAdminDashboardComponent,
     ChatUserDashboardComponent
   ],
-  providers: [],
+  providers: [SocketService],
 })
 
 export class AppModule { }

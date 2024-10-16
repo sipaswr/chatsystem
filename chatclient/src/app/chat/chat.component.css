@@ -1,0 +1,60 @@
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #343a40;
+}
+
+.chat-form {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.input-group {
+    display: flex;
+}
+
+.input-group .form-control {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.notices {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.notice {
+    color: #dc3545; /* Bootstrap danger color for error messages */
+}
+
+.chat-messages {
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.message {
+    margin-bottom: 8px;
+    padding: 5px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.message:last-child {
+    border-bottom: none; /* Remove border for last message */
+}

@@ -1,0 +1,71 @@
+<div class="container">
+    <h2 class="text-center my-4">Chat for: {{ currentGroup }}</h2>
+
+    <form class="chat-form">
+        <!-- Channel selection -->
+        <div class="form-group">
+            <label for="channelslist">Select Channel</label>
+            <select [(ngModel)]="channelslist" name="channelslist" id="channelslist" class="form-control">
+                <option [ngValue]="null" disabled>Select Channel</option>
+                <option *ngFor="let channel of channels" [ngValue]="channel">{{ channel }}</option>
+            </select>
+        </div>
+
+        <!-- New channel input -->
+        <div class="form-group">
+            <label for="newchannel">New Channel</label>
+            <div class="input-group">
+                <input type="text" [(ngModel)]="newchannel" name="newchannel" id="newchannel" class="form-control" placeholder="Enter new channel name" />
+                <button (click)="createchannel()" class="btn btn-primary" type="button">Create</button>
+            </div>
+        </div>
+
+        <!-- Join/Leave buttons -->
+        <div class="form-group text-center">
+            <button *ngIf="!isinChannel" (click)="joinchannel()" class="btn btn-success" type="button">Join Channel</button>
+            <button *ngIf="isinChannel" (click)="leavechannel()" class="btn btn-danger" type="button">Leave Channel</button>
+        </div>
+
+        <!-- Message input for chatting -->
+        <div class="form-group" *ngIf="isinChannel">
+            <label for="messagecontent">New Message</label>
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    [(ngModel)]="messagecontent" 
+                    name="messagecontent" 
+                    id="messagecontent" 
+                    class="form-control" 
+                    placeholder="Type your message here" 
+                    (keydown.enter)="chat(messagecontent, currentUser, currentchannel)" 
+                />
+                <input 
+                    type="file" 
+                    (change)="onFileSelected($event)" 
+                    name="uploadfile" 
+                    id="uploadfile" 
+                    class="form-control-file"
+                />
+                <button (click)="chat(messagecontent, currentUser, currentchannel)" class="btn btn-primary" type="button">Send</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="notices">
+        <h3>Notices</h3>
+        <p class="notice">{{ channelnotice }}</p>
+        <p class="notice">{{ channelJoinedMessage }}</p>
+        <button (click)="clearnotice()" class="btn btn-secondary">Clear Notice</button>
+    </div>
+
+    <h3 class="mt-4">Chat Messages for {{ currentchannel }} - {{ getActiveUsersText() }}</h3>
+    
+    <!-- Display chat messages -->
+    <div class="chat-messages">
+        <div *ngFor="let message of messagecontents" class="message">
+            <strong>{{ message.user }}:</strong> 
+            <span *ngIf="!message.isImage">{{ message.content }}</span>
+            <img *ngIf="message.isImage" [src]="message.content" alt="Uploaded image" class="uploaded-image" />
+        </div>
+    </div>
+</div>

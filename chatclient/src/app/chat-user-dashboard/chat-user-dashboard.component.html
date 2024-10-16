@@ -1,40 +1,39 @@
 <div class="dashboard">
-    <h2 *ngIf="username">Welcome, {{ username }}</h2>
-  
-    <div *ngIf="!username">
+  <h2 *ngIf="username">Welcome, {{ username }}</h2>
+
+  <div *ngIf="!username">
       <h3>Create New Chat User</h3>
       <input #newUsername type="text" placeholder="Enter a unique username">
       <button (click)="createUser(newUsername.value)">Create User</button>
-    </div>
-  
-    <div *ngIf="username">
+  </div>
+
+  <div *ngIf="username">
       <h3>Your Groups</h3>
       <ul>
-        <li *ngFor="let group of groups">
-          {{ group }}
-          <button (click)="leaveGroup(group)">Leave Group</button>
-        </li>
+          <li *ngFor="let group of groups">
+              {{ group }}
+              <button (click)="leaveGroup(group)">Leave Group</button>
+              <button (click)="startChat(group)">Start Chat</button> 
+          </li>
       </ul>
-  
+
       <h3>Available Groups</h3>
       <ul>
-        <li *ngFor="let group of allGroups">
-          {{ group }}
-          <button *ngIf="!groups.includes(group)" (click)="joinGroup(group)">Join Group</button>
-          <button *ngIf="!interestedGroups.includes(group) && !groups.includes(group)" (click)="registerInterest(group)">Register Interest</button>
-        </li>
+          <li *ngFor="let group of allGroups">
+              {{ group }}
+              <button *ngIf="!groups.includes(group)" (click)="joinGroup(group)">Join Group</button>
+              <button *ngIf="!interestedGroups.includes(group) && !groups.includes(group)" (click)="registerInterest(group)">Register Interest</button>
+          </li>
       </ul>
-  
+
       <h3>Interested Groups</h3>
       <ul>
-        <li *ngFor="let group of interestedGroups">{{ group }}</li>
+          <li *ngFor="let group of interestedGroups">{{ group }}</li>
       </ul>
-  
 
       <div class="user-actions">
-        <button (click)="logout()">Logout</button>
-        <button (click)="deleteUser()">Delete Account</button>
+          <button (click)="logout()">Logout</button>
+          <button (click)="deleteUser()">Delete Account</button>
       </div>
-    </div>
   </div>
-  
+</div>

@@ -56,6 +56,12 @@ export class ChatUserDashboardComponent implements OnInit {
     }
   }
 
+  // Navigate to chat page with the specific group
+  startChat(groupName: string) {
+    sessionStorage.setItem('currentGroup', groupName);
+    this.router.navigate(['/chat']);  // Navigate to the chat page with the group name as a parameter
+  }
+
   // Delete the user account
   deleteUser() {
     sessionStorage.clear();  // Clear all session data

@@ -1,6 +1,14 @@
 const express = require('express');
 const app = express();
 app.use(express.json());
+const cors = require('cors');
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const sockets = require('./socket.js');
+const server = require('./listen.js');
+const request = require('request');
+
+const PORT = 3000;
 
 let users = [];
 
@@ -29,6 +37,53 @@ app.delete('/api/users/:id', (req, res) => {
     return res.status(200).json({ message: 'User removed successfully' });
 });
 
-app.listen(3000, () => {
-    console.log('Server running on port 3000');
+app.get('/', (req, res) => {
+    res.send('Welcome to the Chat Server!');
 });
+
+    
+app.use(cors());
+sockets.connect(io, PORT);
+server.listen(http,PORT)
+
+// Add this to the bottom of server.js (without modifying or removing anything above)
+
+// Handle socket connections
+io.on('connection', (socket) => {
+    console.log(`User connected: ${socket.id}`);
+
+    
+
+    // User joins a channel
+    socket.on('joinChannel', (channel) => {
+        socket.join(channel);
+        console.log(`User ${socket.id} joined channel ${channel}`);
+        
+        // Notify others in the channel
+        socket.to(channel).emit('joined', { user: socket.id, channel });
+    });
+
+    // User leaves a channel
+    socket.on('leave-channel', (channel) => {
+        socket.leave(channel);
+        console.log(`User ${socket.id} left channel ${channel}`);
+        
+        // Notify others in the channel
+        socket.to(channel).emit('left', { user: socket.id, channel });
+    });
+
+    // Handle sending messages
+    socket.on('message', (messageData) => {
+        const { channel, message } = messageData;
+        console.log(`Message from ${socket.id} in channel ${channel}: ${message}`);
+        
+        // Broadcast the message to others in the same channel
+        socket.to(channel).emit('message', { user: socket.id, message });
+    });
+
+    // Handle disconnect event
+    socket.on('disconnect', () => {
+        console.log(`User disconnected: ${socket.id}`);
+    });
+});
+

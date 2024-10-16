@@ -3,14 +3,14 @@
     <h2>Group Administrator Dashboard</h2>
     </header>
   
-    <!-- Create Group Form -->
+    <!-- Create Group  -->
     <div class="form-group">
       <h3>Create Group</h3>
       <input type="text" [(ngModel)]="newGroupName" placeholder="Group Name" />
       <button (click)="createGroup(newGroupName)">Create Group</button>
     </div>
   
-    <!-- Create Channel Form -->
+    <!-- Create Channel  -->
     <div class="form-group">
       <h3>Create Channel</h3>
       <input type="text" [(ngModel)]="newChannelName" placeholder="Channel Name" />
@@ -20,7 +20,7 @@
       <button (click)="createChannel(newChannelName, selectedGroupForChannel)">Create Channel</button>
     </div>
   
-    <!-- Remove Group Form -->
+    <!-- Remove Group  -->
     <div class="form-group">
       <h3>Remove Group</h3>
       <select [(ngModel)]="groupToRemove">
@@ -29,7 +29,7 @@
       <button (click)="removeGroup(groupToRemove)">Remove Group</button>
     </div>
   
-    <!-- Remove Channel Form -->
+    <!-- Remove Channel  -->
     <div class="form-group">
       <h3>Remove Channel</h3>
       <input type="text" [(ngModel)]="channelToRemove" placeholder="Channel Name" />
@@ -39,7 +39,7 @@
       <button (click)="removeChannel(channelToRemove, selectedGroupForChannelRemoval)">Remove Channel</button>
     </div>
   
-    <!-- Delete User From Group Form -->
+    <!-- Delete User From Group  -->
     <div class="form-group">
       <h3>Delete User From Group</h3>
       <input type="text" [(ngModel)]="userToDelete" placeholder="Username" />
@@ -49,7 +49,7 @@
       <button (click)="deleteUserFromGroup(userToDelete, selectedGroupForUserDeletion)">Delete User</button>
     </div>
   
-    <!-- Modify Group Form -->
+    <!-- Modify Group  -->
     <div class="form-group">
       <h3>Modify Group</h3>
       <input type="text" [(ngModel)]="oldGroupName" placeholder="Old Group Name" />
@@ -57,7 +57,7 @@
       <button (click)="modifyGroup(oldGroupName, newGroupName)">Modify Group</button>
     </div>
   
-    <!-- Ban User From Channel Form -->
+    <!-- Ban User From Channel -->
     <div class="form-group">
       <h3>Ban User From Channel</h3>
       <input type="text" [(ngModel)]="userToBan" placeholder="Username" />
