@@ -7,7 +7,7 @@ const SERVER_URL = 'http://localhost:3000/chat';
   providedIn: 'root'
 })
 export class SocketService {
-  private socket!: Socket; // Specify the type for socket
+  private socket!: Socket;
 
   constructor() {}
 
