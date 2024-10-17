@@ -1,0 +1,118 @@
+## 1. Organization of Git Repository
+
+The Git repository for this project, named `chatsystem`, is organized as follows:
+
+- **Root Directory**
+  - `README.md`: Documentation about the project, including setup instructions and usage.
+  - `chatclient/`: Angular frontend application.
+  - `chatserver/`: Node.js backend server.
+
+**Development Workflow:**
+- Frequent commits were made with clear messages to track the evolution of the code.
+
+---
+
+## 2. Data Structures Used
+
+The following data structures are utilized in both the client and server to represent various entities:
+
+- **Users**
+
+Users in the application are represented using a combination of properties stored in the session storage. Each user has the following attributes:
+
+Username: A string that represents the unique identifier for the user. It is stored in session storage for easy access.
+Profile Picture: This can be represented as a string or an ArrayBuffer, allowing for storage of the image in base64 format. The profile picture is also stored in session storage.
+Groups: An array of strings representing the groups the user belongs to. This is also stored in session storage, allowing for easy retrieval and manipulation.
+
+- **Groups**
+
+Groups are represented as simple strings within an array. This structure allows users to join, leave, and manage groups dynamically.
+
+Group Name: A string that uniquely identifies each group. The application maintains a list of available groups and the groups that a user belongs to.
+
+- **Channels**
+
+Channels in the application are represented similarly to groups, allowing for organized communication among users. Each channel has the following attributes:
+
+Channel Name: A string that uniquely identifies each channel. Channels can be created by users, and the application maintains a list of all available channels.
+
+
+## 3. Angular Architecture 
+### 1. Components
+
+#### **ChatComponent**
+- **Purpose:** 
+  - Manages the chat functionality, including joining channels, sending messages, and displaying messages.
+- **Key Features:**
+  - Initializes the socket connection using `SocketService`.
+  - Handles joining and leaving channels.
+  - Sends and receives messages, including images.
+  - Maintains a list of message contents with user information and profile pictures.
+
+#### **ChatUserDashboardComponent**
+- **Purpose:** 
+  - Displays the user dashboard with group memberships and profile settings.
+- **Key Features:**
+  - Allows the user to create a new username and manage group memberships.
+  - Displays the user's profile picture and groups they belong to.
+  - Provides functionality for the user to join or leave groups.
+
+#### **GroupAdminDashboardComponent**
+- **Purpose:** 
+  - Manages group and channel administration for group admins.
+- **Key Features:**
+  - Provides functionalities to create and delete groups and channels.
+  - Allows group admins to manage users within groups.
+  - Provides alerts for actions performed (like group/channel creation or removal).
+
+### 2. Services
+
+Services are reusable components that provide functionality across your application, such as handling business logic, data management, and socket connections. Key services in your architecture include:
+
+#### **SocketService**
+- **Purpose:** 
+  - Handles all socket-related functionalities, including connection management and message handling.
+- **Key Features:**
+  - Initializes the socket connection.
+  - Sends and receives messages over the socket.
+  - Manages channel lists and user counts.
+
+#### **UserService**
+- **Purpose:** 
+  - Manages user-related data and functionality.
+- **Key Features:**
+  - Accesses and modifies user profiles, such as retrieving and updating the user's profile picture.
+
+### 3. Models
+
+Models define the structure of the data used in the application. They provide a clear contract for the data being handled, promoting consistency across components and services.
+
+#### a. Message Model
+- **Properties:**
+  - `user: string` - The username of the person sending the message.
+  - `content: string` - The content of the message (text or image).
+  - `isImage: boolean` - Indicates whether the message is an image.
+  - `profilePicture: string | ArrayBuffer | null` - The URL or data of the user's profile picture.
+
+#### b. User Model
+- **Properties:**
+  - `username: string` - The name of the user.
+  - `profilePicture: string | ArrayBuffer | null` - The user's profile picture data.
+  - `groups: string[]` - The groups the user belongs to.
+  - `interestedGroups: string[]` - Groups the user is interested in.
+
+#### c. Group Model
+- **Properties:**
+  - `name: string` - The name of the group.
+  - `channels: Channel[]` - The list of channels associated with the group.
+  - `users: string[]` - The users belonging to the group.
+
+#### d. Channel Model
+- **Properties:**
+  - `name: string` - The name of the channel.
+
+## Getting Started
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/sipaswr/chatsystem.git
+   cd chatsystem
