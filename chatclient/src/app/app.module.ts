@@ -9,6 +9,7 @@ import { ChatUserDashboardComponent } from './chat-user-dashboard/chat-user-dash
 import { ChatComponent } from './chat/chat.component';
 import { SocketService } from './services/socket.service';
 import { CommonModule } from '@angular/common';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { CommonModule } from '@angular/common';
     GroupAdminDashboardComponent,
     ChatUserDashboardComponent,
     ChatComponent,
-    CommonModule
+    CommonModule,
+    NavbarComponent
   ],
   exports: [
     SuperAdminDashboardComponent,

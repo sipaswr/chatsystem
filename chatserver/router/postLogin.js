@@ -1,37 +1,30 @@
-var fs = require('fs');
+const UserLogin = require('../models/userLogin');
+const User = require('../models/user'); 
 
-module.exports = function(req, res) {
-  var u = req.body.username;
-  var p = req.body.password;
-  c = u + p;
-  console.log(c);
+module.exports = async function(req, res) {
+  const { username, password } = req.body;
+  console.log(username + password);
 
-  fs.readFile('./data/users.json', 'utf8', function(err,data) {
-    if (err) throw err;
-
-    let userArray = JSON.parse(data);
-    console.log(userArray);
-
-    let i = userArray.findIndex(user =>
-      [(user.username == u) && (user.password == p)]);
-
-    if (i == -1) {
-      res.send({
-        "ok": false
-      });
-    } else {
-        fs.readFile('./data/exendedUsers.json', 'utf8', function(err, data) {
-          if (err) throw err;
-          let extendedUserArray = JSON.parse(data);
-
-          let i = extendedUserArray.findIndex(user =>
-            ((user.username == u)));
-
-          let userData = extendedUserArray[i];
-          userData["ok"] = true;
-          console.log(userData);
-          res.send(userData);
-        })
+  try {
+    // Check if user exists in users collection
+    const userLogin = await UserLogin.findOne({ username, password });
+    
+    if (!userLogin) {
+      return res.send({ ok: false });
     }
-  })
-}
+
+
+    const extendedUser = await User.findOne({ username });
+
+    if (extendedUser) {
+      extendedUser.ok = true;
+      console.log(extendedUser);
+      return res.send(extendedUser);
+    }
+    
+    res.send({ ok: false });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send({ ok: false, message: 'Internal Server Error' });
+  }
+};

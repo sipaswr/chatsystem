@@ -37,7 +37,7 @@ h2 {
 }
 
 .notice {
-    color: #dc3545; /* Bootstrap danger color for error messages */
+    color: #dc3545;
 }
 
 .chat-messages {
@@ -56,7 +56,7 @@ h2 {
 }
 
 .message:last-child {
-    border-bottom: none; /* Remove border for last message */
+    border-bottom: none;
 }
 
 .profile-picture {
