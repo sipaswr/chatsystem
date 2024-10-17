@@ -94,9 +94,17 @@ export class ChatComponent implements OnInit {
 
   chat(message: string, user: string, channel: string) {
     if (message) {
-      const profilePicture = sessionStorage.getItem('profilePicture') || ''; // Retrieve from session storage
+      const profilePicture = sessionStorage.getItem('profilePicture') || ''; // Retrieve profile picture from session storage
       this.socketService.sendMessage(message, user, channel);
-      this.messagecontents.push({ user: user, content: message, isImage: false, profilePicture }); // Include profile picture
+      
+      // Include the profile picture regardless of the message type (image or text)
+      this.messagecontents.push({ 
+        user: user, 
+        content: message, 
+        isImage: false, 
+        profilePicture 
+      });
+      
       this.messagecontent = ""; 
     } else {
       console.log('No Message');
@@ -112,15 +120,22 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  // Upload the selected image file
+  // Upload the selected image
   uploadFile() {
     if (this.selectedFile) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const imageUrl = e.target.result;
-        const profilePicture = this.userService.getProfilePicture(this.currentUser); // Get the user's profile picture with username
-        this.socketService.sendMessage(imageUrl, this.currentUser, this.currentchannel, true); // Send as image
-        this.messagecontents.push({ user: this.currentUser, content: imageUrl, isImage: true, profilePicture }); // Include profile picture
+        const profilePicture = sessionStorage.getItem('profilePicture') || ''; // Get profile picture from session storage
+  
+        // Send as an image message along with the profile picture
+        this.socketService.sendMessage(imageUrl, this.currentUser, this.currentchannel, true);
+        this.messagecontents.push({
+          user: this.currentUser,
+          content: imageUrl,
+          isImage: true,
+          profilePicture // Add profile picture here for images
+        });
       };
       reader.readAsDataURL(this.selectedFile);
       this.selectedFile = null; // Reset the selected file
